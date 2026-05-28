@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WWM Sushi 200th Day In-Game Photoshoot Contest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page-wrapper">
+    <nav class="navbar glass-panel">
+      <div class="nav-content">
+        <div class="logo">Sushi 200th</div>
+        <div class="nav-links">
+          <button class="nav-tab active" data-target="tab-submit">Submit</button>
+          <button class="nav-tab" data-target="tab-gallery">Gallery</button>
+          <button class="nav-tab hidden" id="judge-tab" data-target="tab-judge">Judge</button>
+          <button class="nav-tab hidden" id="results-tab" data-target="tab-results">Results</button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="content-container">
+      <section class="hero glass-panel">
+        <span class="badge">Where Winds Meet</span>
+        <h1>WWM Sushi 200th Day<br><span class="text-gradient">In-Game Photoshoot Contest</span></h1>
+        <p class="hero-desc">Celebrate our guild's 200th day. Submit your best in-game photos featuring your character.</p>
+        <p class="dates">Submissions close June 7, 2026 • Results June 12, 2026</p>
+      </section>
+
+      <section class="tab-content active" id="tab-submit">
+        <div class="glass-panel form-wrapper">
+          <h2>Submit Your Entry</h2>
+          <div class="rules-box">
+            <h4>Contest Rules</h4>
+            <ul>
+              <li>Theme is open, but the photo must be taken in <strong>Where Winds Meet</strong>.</li>
+              <li>Your character must be included as the model.</li>
+              <li>Each participant can submit 1 entry only, with up to 3 photos max.</li>
+              <li>Editing is allowed only if it can be done within the game's capacity.</li>
+              <li>No stolen photos. Management can reject entries that do not follow the rules.</li>
+            </ul>
+          </div>
+
+          <div class="notice-box">
+            <strong>Submission Notice:</strong> submit your entry through the official form below. Once received, your entry will be reviewed and added to the contest gallery for judging.
+          </div>
+
+          <div id="tally-frame-wrapper" class="tally-frame-wrapper">
+            <iframe id="tally-frame" title="WWM Sushi Photoshoot Submission" loading="lazy"></iframe>
+          </div>
+
+          <div id="missing-tally" class="alert alert-warning hidden">
+            Tally form URL is not set yet. Open <code>app.js</code> and replace <code>PASTE_TALLY_EMBED_URL_HERE</code> with your Tally embed URL.
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-content" id="tab-gallery">
+        <div class="toolbar glass-panel">
+          <div>
+            <h2>Gallery</h2>
+            <p>Approved entries from Airtable will appear here.</p>
+          </div>
+          <button class="btn-secondary" id="refresh-gallery">Refresh Gallery</button>
+        </div>
+        <div id="gallery-status" class="status-line">Loading gallery...</div>
+        <div class="gallery-grid" id="gallery-grid"></div>
+      </section>
+
+      <section class="tab-content" id="tab-judge">
+        <div class="toolbar glass-panel">
+          <div>
+            <h2>Judge Panel</h2>
+            <p>Click an entry, view the image, then submit score directly.</p>
+          </div>
+          <button class="btn-secondary" id="logout-judge">Logout Judge Mode</button>
+        </div>
+        <div id="judge-status" class="status-line">Loading entries...</div>
+        <div class="gallery-grid" id="judge-grid"></div>
+      </section>
+
+      <section class="tab-content" id="tab-results">
+        <div class="toolbar glass-panel">
+          <div>
+            <h2>Judge Results</h2>
+            <p>Average score and number of judge submissions per entry.</p>
+          </div>
+          <button class="btn-secondary" id="refresh-results">Refresh Results</button>
+        </div>
+        <div id="results-status" class="status-line">Results are only visible in judge mode.</div>
+        <div class="results-table-wrap glass-panel">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Entry</th>
+                <th>IGN</th>
+                <th>Judges</th>
+                <th>Average</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody id="results-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; <span id="year-span"></span> WWM Sushi Guild</p>
+      <a href="#" id="judge-access-link" class="judge-link">Judge Login</a>
+    </footer>
+  </div>
+
+  <div id="entry-modal" class="modal hidden">
+    <div class="modal-content glass-panel large-modal">
+      <button class="close-btn" data-close-modal>&times;</button>
+      <div class="modal-layout">
+        <div>
+          <img id="modal-main-img" src="" alt="Entry image" class="modal-img" />
+          <div id="modal-thumbs" class="modal-thumbs"></div>
+        </div>
+        <div>
+          <h3 id="modal-title" class="modal-title"></h3>
+          <p class="modal-meta"><strong>IGN:</strong> <span id="modal-ign"></span></p>
+          <p class="modal-meta"><strong>Discord:</strong> <span id="modal-discord"></span></p>
+          <div class="modal-summary" id="modal-summary"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="judge-modal" class="modal hidden">
+    <div class="modal-content glass-panel large-modal">
+      <button class="close-btn" data-close-modal>&times;</button>
+      <div class="modal-layout judge-layout">
+        <div>
+          <img id="judge-main-img" src="" alt="Entry image" class="modal-img" />
+          <div id="judge-thumbs" class="modal-thumbs"></div>
+          <h3 id="judge-title" class="modal-title"></h3>
+          <p class="modal-meta"><strong>IGN:</strong> <span id="judge-ign"></span></p>
+          <div class="modal-summary" id="judge-summary"></div>
+        </div>
+        <form id="judge-score-form" class="judge-form-card">
+          <h3>Score Entry</h3>
+          <input type="hidden" id="score-entry-id" />
+          <div class="input-group">
+            <label for="judge-name">Judge Name *</label>
+            <input type="text" id="judge-name" required placeholder="Your judge name" />
+          </div>
+          <div class="scoring-grid">
+            <label>Creativity <select id="score-creativity" required></select></label>
+            <label>Composition <select id="score-composition" required></select></label>
+            <label>Character Presentation <select id="score-character" required></select></label>
+            <label>Story / Summary <select id="score-story" required></select></label>
+            <label>Overall Impact <select id="score-impact" required></select></label>
+          </div>
+          <div class="score-total">Total Score: <span id="score-total">0</span> / 50</div>
+          <div class="input-group">
+            <label for="score-comments">Comments / Feedback</label>
+            <textarea id="score-comments" rows="4" placeholder="Optional feedback"></textarea>
+          </div>
+          <button type="submit" class="btn-primary" id="submit-score-btn">Submit Score</button>
+          <div id="score-message" class="status-line"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
