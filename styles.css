@@ -107,3 +107,42 @@ footer { text-align: center; padding: 2rem; color: var(--text-muted); margin-top
   .form-wrapper, .hero, .modal-content { padding: 1.4rem; }
   .tally-frame-wrapper iframe { min-height: 820px; }
 }
+/* Full-size image viewer */
+.modal-img {
+  cursor: zoom-in;
+}
+
+.image-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.94);
+}
+
+.image-lightbox img {
+  max-width: 96vw;
+  max-height: 94vh;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.lightbox-close {
+  position: fixed;
+  top: 14px;
+  right: 22px;
+  z-index: 10000;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 52px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lightbox-close:hover {
+  color: var(--gold);
+}
