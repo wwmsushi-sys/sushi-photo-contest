@@ -140,12 +140,54 @@ function updateJudgeUi() {
 
 function setupModals() {
   document.querySelectorAll('[data-close-modal]').forEach(btn => {
-    btn.addEventListener('click', () => btn.closest('.modal').classList.add('hidden'));
+    btn.addEventListener('click', () => {
+      btn.closest('.modal').classList.add('hidden');
+    });
   });
+
   document.querySelectorAll('.modal').forEach(modal => {
     modal.addEventListener('click', e => {
       if (e.target === modal) modal.classList.add('hidden');
     });
+  });
+
+  const lightbox = $('image-lightbox');
+  const lightboxImg = $('lightbox-img');
+  const lightboxClose = $('lightbox-close');
+
+  function openLightbox(imageSrc) {
+    if (!imageSrc) return;
+
+    lightboxImg.src = imageSrc;
+    lightbox.classList.remove('hidden');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.add('hidden');
+    lightbox.setAttribute('aria-hidden', 'true');
+    lightboxImg.src = '';
+    document.body.style.overflow = '';
+  }
+
+  ['modal-main-img', 'judge-main-img'].forEach(id => {
+    const image = $(id);
+
+    image.addEventListener('click', e => {
+      e.stopPropagation();
+      openLightbox(image.src);
+    });
+  });
+
+  lightboxClose.addEventListener('click', closeLightbox);
+
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
   });
 }
 
