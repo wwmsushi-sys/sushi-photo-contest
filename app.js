@@ -267,6 +267,20 @@ function openEntryModal(entry) {
   $('modal-ign').textContent = entry.ign || 'Unknown';
   $('modal-discord').textContent = entry.discord || '-';
   $('modal-summary').textContent = entry.summary || '';
+
+  const comments = entry.comments || [];
+  const commentsSection = $('modal-comments-section');
+  const commentsBox = $('modal-comments');
+
+  commentsBox.innerHTML = comments.map((comment, index) => `
+    <div class="judge-comment">
+      <strong>Judge ${index + 1}</strong>
+      <p>${escapeHTML(comment)}</p>
+    </div>
+  `).join('');
+
+  commentsSection.classList.toggle('hidden', comments.length === 0);
+
   fillImageSet('modal-main-img', 'modal-thumbs', entry.photos);
   $('entry-modal').classList.remove('hidden');
 }
