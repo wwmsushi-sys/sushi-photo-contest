@@ -146,3 +146,30 @@ footer { text-align: center; padding: 2rem; color: var(--text-muted); margin-top
 .lightbox-close:hover {
   color: var(--gold);
 }
+
+.judge-comments {
+  margin-top: 1.2rem;
+}
+
+.judge-comments h4 {
+  color: var(--gold-light);
+  margin-bottom: .7rem;
+}
+
+.judge-comment {
+  background: rgba(212, 175, 55, .08);
+  border: 1px solid rgba(212, 175, 55, .18);
+  border-radius: 10px;
+  padding: .9rem 1rem;
+  margin-bottom: .7rem;
+}
+
+.judge-comment strong {
+  color: var(--gold-light);
+}
+
+.judge-comment p {
+  color: var(--text-main);
+  white-space: pre-wrap;
+  margin-top: .25rem;
+}
