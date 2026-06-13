@@ -219,3 +219,48 @@ footer { text-align: center; padding: 2rem; color: var(--text-muted); margin-top
     right: 6px;
   }
 }
+/* =========================================================
+   Public gallery contestant navigation
+   Paste this at the very bottom of styles.css.
+   This overrides the earlier floating arrow design.
+   ========================================================= */
+.entry-nav-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.entry-nav-row .entry-nav-btn {
+  position: static;
+  top: auto;
+  left: auto;
+  right: auto;
+  z-index: auto;
+  flex: 1;
+  width: auto;
+  height: auto;
+  padding: 0.75rem 0.9rem;
+  transform: none;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 10px;
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--gold-light);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.entry-nav-row .entry-nav-btn:hover {
+  background: rgba(212, 175, 55, 0.2);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 520px) {
+  .entry-nav-row {
+    flex-direction: column;
+  }
+}
