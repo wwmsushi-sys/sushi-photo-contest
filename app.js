@@ -2,11 +2,12 @@
 // WWM Sushi Contest Website Config
 // =============================
 const SITE_CONFIG = {
-  // Tally: open Share > Embed > Standard, then paste the iframe src URL here.
-  // Example format: https://tally.so/embed/xxxxxxxx?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1
   tallyEmbedUrl: 'https://tally.so/embed/xXleGG?hideTitle=1&transparentBackground=1&dynamicHeight=1',
 
-  // Judge results tab will only appear after judge login.
+  // Show the final ranking publicly after judging has ended.
+  publicResults: true,
+
+  // Keep this so judges can still view results if publicResults is disabled later.
   showResultsInJudgeMode: true
 };
 
@@ -134,7 +135,12 @@ async function validateStoredJudgeCode() {
 
 function updateJudgeUi() {
   $('judge-tab').classList.toggle('hidden', !state.judgeMode);
-  $('results-tab').classList.toggle('hidden', !(state.judgeMode && SITE_CONFIG.showResultsInJudgeMode));
+
+  $('results-tab').classList.toggle(
+    'hidden',
+    !(SITE_CONFIG.publicResults || (state.judgeMode && SITE_CONFIG.showResultsInJudgeMode))
+  );
+
   $('judge-access-link').textContent = state.judgeMode ? 'Judge Mode Active' : 'Judge Login';
 }
 
@@ -366,20 +372,19 @@ async function submitScore(e) {
 }
 
 async function loadResults() {
-  if (!state.judgeMode) return;
   setText('results-status', 'Loading results...');
   const body = $('results-body');
   body.innerHTML = '';
+
   try {
-    const res = await fetch('/api/getResults', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ judgeCode: state.judgeCode })
-    });
+    const res = await fetch('/api/getResults');
     const data = await res.json();
+
     if (!res.ok) throw new Error(data.error || 'Failed to load results');
+
     const results = data.results || [];
     setText('results-status', `${results.length} entries ranked.`);
+
     body.innerHTML = results.map((r, index) => `
       <tr>
         <td>${index + 1}</td>
