@@ -6,10 +6,7 @@ export async function onRequest(context) {
   if (request.method !== 'GET') return json({ error: 'Method not allowed' }, 405);
 
 try {
-    const data = await request.json().catch(() => ({}));
-    const requiredCode = envGet(env, 'JUDGE_CODE', '');
-    if (requiredCode && data.judgeCode !== requiredCode) return json({ error: 'Invalid judge code.' }, 401);
-
+    
     const entriesTable = envGet(env, 'AIRTABLE_ENTRIES_TABLE', 'Entries');
     const entriesView = envGet(env, 'AIRTABLE_ENTRIES_VIEW', 'Gallery');
     const scoresTable = envGet(env, 'AIRTABLE_SCORES_TABLE', 'Scores');
