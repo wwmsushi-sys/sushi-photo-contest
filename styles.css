@@ -173,3 +173,49 @@ footer { text-align: center; padding: 2rem; color: var(--text-muted); margin-top
   white-space: pre-wrap;
   margin-top: .25rem;
 }
+
+/* Previous and next contestant buttons inside the public gallery modal */
+.entry-nav-btn {
+  position: fixed;
+  top: 50%;
+  z-index: 1100;
+  width: 52px;
+  height: 72px;
+  transform: translateY(-50%);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.72);
+  color: var(--gold-light);
+  font-size: 2rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.entry-nav-btn:hover {
+  background: rgba(212, 175, 55, 0.2);
+  transform: translateY(-50%) scale(1.06);
+}
+
+.entry-nav-prev {
+  left: 18px;
+}
+
+.entry-nav-next {
+  right: 18px;
+}
+
+@media (max-width: 820px) {
+  .entry-nav-btn {
+    width: 42px;
+    height: 58px;
+    font-size: 1.5rem;
+  }
+
+  .entry-nav-prev {
+    left: 6px;
+  }
+
+  .entry-nav-next {
+    right: 6px;
+  }
+}
