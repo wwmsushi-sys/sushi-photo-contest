@@ -3,9 +3,9 @@ import { envGet, listRecords, json, getField } from './_utils.js';
 export async function onRequest(context) {
   const { request, env } = context;
   if (request.method === 'OPTIONS') return json({ ok: true });
-  if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
+  if (request.method !== 'GET') return json({ error: 'Method not allowed' }, 405);
 
-  try {
+try {
     const data = await request.json().catch(() => ({}));
     const requiredCode = envGet(env, 'JUDGE_CODE', '');
     if (requiredCode && data.judgeCode !== requiredCode) return json({ error: 'Invalid judge code.' }, 401);
