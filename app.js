@@ -16,7 +16,8 @@ const state = {
   judgeCode: localStorage.getItem('wwm_judge_code') || '',
   judgeName: localStorage.getItem('wwm_judge_name') || '',
   // Do not trust localStorage by itself. Judge mode is enabled only after server verification.
-  judgeMode: false
+  judgeMode: false,
+currentGalleryEntryIndex: 0
 };
 
 const $ = (id) => document.getElementById(id);
